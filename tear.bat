@@ -1,0 +1,1 @@
+surge teardown do-setup.com && surge teardown do-setup.surge.sh && exit

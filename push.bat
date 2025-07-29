@@ -1,0 +1,1 @@
+surge ./ && surge ./ do-setup.surge.sh && exit

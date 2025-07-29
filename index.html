@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>if you want to login into this droplet from other computer then use the same private_key.ppk</p>
+
+-  xcodeclazz@gmail.com [OAuth]
+-  Free credit $200 (60 Days)
+-  25 March 2023
+-  4790
+
+- Bought a custom domain
+
+- DIGITAL OCEAN
+	- create new project +
+	- spin a new droplet -> ubantu 18.04 LTS (select) [choose 18.xx] else putty will not work
+	- open putty gen and generate a secret key [move your mouse while key is being generate]
+	- [IMPORTANT] copy the `ssh-rsa AAAA...== rsa-key-20230325` on your clipboard and paste this to digital ocean and give it a name example: `appname-droplet-rsa`
+	- provide a passphrase and save the public_key and private_key to "C:\Users\TimeMAchine\Desktop\xcodeclazz-rsa\id_rsa" or any other location on your computer
+	- [IMPORTANT] save the `ssh-rsa AAAA...== rsa-key-20230325` on a notepad along with passphrase if you want
+	- close the putty gen
+	- create the droplet and wait couple of seconds
+	- [IMPORTANT] keep those public_key and private_key safe somewhere
+	- setup the putty to access the server from local computer first -- [OR] -- access the droplet via terminal from web browser first
+	- open putty
+		- Session -> Paste the host ip of the droplet and let the port be 22
+		- Connection -> Data -> AutoLogin to 'root'
+		- Connection -> SSH -> Auth -> Choose the private-key.ppk file from your local computer
+		- Session -> Provide any name to 'Saved Session' and click save
+
+- Putty
+	- open the config and provide your password
+	- run these following commands
+
+	- cd ~
+	- curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+	- bash nodesource_setup.sh
+	- apt-get install -y nodejs
+	- apt-get install build-essential
+	- apt-get install npm
+	- check node version should be > 14.x
+
+	- sudo mkdir app
+	- cd app
+	- sudo git clone https://github.com/abdamin/repository_name.git
+	- cd repository_name
+	- npm install
+
+	- apt-get update
+	- apt-get install nginx
+	- systemctl status nginx
+	- curl http://159.65.xxx.xxx/ or go to http://159.65.xxx.xxx/ from your browser
+	- sudo nano /etc/nginx/sites-available/default
+
+		- server_name example.com www.example.com;
+		- location / {
+			proxy_pass http://localhost:{{YOUR-APP-PORT-IN-YOUR-CODE}}; 
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection 'upgrade';
+			proxy_set_header Host $host;
+			proxy_cache_bypass $http_upgrade;
+		}
+
+		- location /another_app/v1 {
+			proxy_pass http://localhost:{{YOUR-APP-PORT-IN-YOUR-CODE}}; 
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection 'upgrade';
+			proxy_set_header Host $host;
+			proxy_cache_bypass $http_upgrade;
+		}
+
+	- sudo nginx -t
+	- sudo service nginx restart
+
+	- npm install pm2 -g
+	- pm2 start npm --name myapp -- run prod && pm2 log myapp
+	- pm2 delete myapp && pm2 start npm --name myapp -- run prod && pm2 log myapp
+	- pm2 startup ubuntu
+
+	- sudo ufw enable
+	- sudo ufw allow ssh
+	- sudo ufw allow http
+	- sudo ufw allow https
+
+- please install all the software apart form the above steps
+- sudo apt install default-jdk
+- sudo apt get install python
+- sudo apt install g++
+
+- Please visit your site via example.com
+- [droplet & domain setup](https://itnext.io/deploy-a-nodejs-and-expressjs-app-on-digital-ocean-with-nginx-and-free-ssl-edd88a5580fa)
+
+- Resources
+[https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/putty/]
+[https://docs.digitalocean.com/products/droplets/how-to/add-ssh-keys/create-with-putty/]
+[https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04]
+</body>
+</html>
